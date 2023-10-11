@@ -1,5 +1,7 @@
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/constant.dart';
+import 'package:attendance_app/views/home/home.dart';
+import 'package:attendance_app/views/profile/profile.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -22,15 +24,12 @@ class _DashBoardViewState extends State<DashBoardView> {
     _pageController = PageController(initialPage: _pageIndex);
 
     screens = [
-      const Center(
-        child: Text("Home"),
-      ),
-      const Center(
-        child: Text("Attendace"),
-      ),
+      HomeView(),
       const Center(
         child: Text("Profile"),
       ),
+      ProfileView(),
+
       ////////////
     ];
     // noCardDilog();
