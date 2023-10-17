@@ -1,11 +1,39 @@
+import 'dart:async';
+import 'package:attendance_app/controllers/employee_controller.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/images.dart';
 import 'package:attendance_app/utils/router.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SplashView extends StatelessWidget {
+class SplashView extends StatefulWidget {
   const SplashView({super.key});
+
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  final EmployeeController employeeController = Get.put(EmployeeController());
+
+  @override
+  void initState() {
+    employeeController.onInit();
+    super.initState();
+    //   Timer(const Duration(seconds: 3), () async {
+    //   SharedPreferences sharedPreferences =
+    //       await SharedPreferences.getInstance();
+    //   if (sharedPreferences.getString("userId") != null) {
+    //     // authService.getInUser();
+    //     Get.toNamed(AppRouter.dashboard);
+    //     print(sharedPreferences.getString("userId"));
+    //   } else {
+    //     Get.toNamed(AppRouter.signIn);
+    //   }
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {

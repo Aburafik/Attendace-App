@@ -1,3 +1,4 @@
+import 'package:attendance_app/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class CalenderVC extends StatelessWidget {
@@ -6,7 +7,10 @@ class CalenderVC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("CAlender"),),
+      appBar: commonAppBar(),
+      body: Center(
+        child: Text("Calender"),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:attendance_app/utils/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
@@ -19,6 +20,15 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: AppRouter.initial,
       getPages: AppRouter.routes,
+      builder: EasyLoading.init(),
     );
   }
 }
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:loading_indicator/src/shape/indicator_painter.dart';
+
+/// BallScale.

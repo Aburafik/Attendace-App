@@ -1,16 +1,21 @@
+import 'package:attendance_app/controllers/employee_controller.dart';
+import 'package:attendance_app/services/attendance_service.dart';
 import 'package:attendance_app/utils/colors.dart';
-import 'package:attendance_app/views/dashboard/splash.dart';
+import 'package:attendance_app/utils/router.dart';
 import 'package:attendance_app/views/home/calender/calender.dart';
 import 'package:attendance_app/views/home/leave/leave.dart';
 import 'package:attendance_app/views/home/reports/report.dart';
 import 'package:attendance_app/views/home/task/task.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+// import 'package:loading_indicator/loading_indicator.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
-
+  HomeView({super.key});
+  final EmployeeController userController = Get.find<EmployeeController>();
+  final AttendanceService _attendanceService = AttendanceService();
   @override
   Widget build(BuildContext context) {
     var smallTextStyle = TextStyle(fontSize: 11, color: CustomeColors.grey);
@@ -19,27 +24,29 @@ class HomeView extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: CustomeColors.primary,
         toolbarHeight: 100,
-        title: Row(
-          children: [
-            const CircleAvatar(
-              radius: 25,
-            ),
-            const SizedBox(width: 5),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "user name",
-                  style: TextStyle(color: CustomeColors.lightGrey),
-                ),
-                Text(
-                  "UI/UX Desiner",
-                  style: smallTextStyle,
-                ),
-              ],
-            )
-          ],
-        ),
+        title: Obx(() {
+          return Row(
+            children: [
+              const CircleAvatar(
+                radius: 25,
+              ),
+              const SizedBox(width: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userController.user.value.name!,
+                    style: TextStyle(color: CustomeColors.lightGrey),
+                  ),
+                  Text(
+                    userController.user.value.role!,
+                    style: smallTextStyle,
+                  ),
+                ],
+              )
+            ],
+          );
+        }),
         actions: [
           IconButton(
               onPressed: () {},
@@ -123,25 +130,29 @@ class HomeView extends StatelessWidget {
                       color: CustomeColors.black),
                 ),
                 const SizedBox(height: 20),
-                const Wrap(
+                Wrap(
                   spacing: 40,
                   runSpacing: 20,
                   children: [
                     OfficeServiceWidget(
                       title: "Task",
                       icon: Icons.task,
+                      onTap: () => Get.toNamed(AppRouter.Task),
                     ),
                     OfficeServiceWidget(
                       title: "Report",
                       icon: FeatherIcons.file,
+                      onTap: () => Get.toNamed(AppRouter.Report),
                     ),
                     OfficeServiceWidget(
                       title: "Calender",
                       icon: FeatherIcons.calendar,
+                      onTap: () => Get.toNamed(AppRouter.Calender),
                     ),
                     OfficeServiceWidget(
                       title: "Leave",
                       icon: FeatherIcons.fileText,
+                      onTap: () => Get.toNamed(AppRouter.Leave),
                     ),
                     // OfficeServiceWidget(
                     //   title: "Clock In",
@@ -152,29 +163,34 @@ class HomeView extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
+
+          const Spacer(),
           GestureDetector(
-            onTap: () {
-              // print("CLOCK IN");
+            onTap: () async {
+              _attendanceService.markAttendance(context: context,type: "clock-in");
+              // Navigator.pop(context);
             },
             child: Align(
-                child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundColor: CustomeColors.primary,
-                  child: Icon(
-                    Icons.fingerprint_rounded,
-                    color: CustomeColors.white,
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: CustomeColors.primary,
+                    child: Icon(
+                      Icons.fingerprint_rounded,
+                      color: CustomeColors.white,
+                    ),
                   ),
-                ),
-                Text(
-                  "Clock In",
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500),
-                )
-              ],
-            )),
+                  const Text(
+                    "Clock In",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
+                ],
+              ),
+            ),
           )
           // CommonButton(title: "CLock In",)
         ],
@@ -188,14 +204,15 @@ class OfficeServiceWidget extends StatelessWidget {
     super.key,
     this.title,
     this.icon,
+    this.onTap,
   });
   final String? title;
   final IconData? icon;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(HomeNavigation.settings,
-          id: HomeNavigation.id, arguments: title),
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -216,107 +233,5 @@ class OfficeServiceWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class HomeNavigation {
-  HomeNavigation._();
-
-  static const id = 1;
-
-  static const main = '/main';
-  static const settings = '/categories';
-}
-
-class HomeViewWrapper extends StatelessWidget {
-  const HomeViewWrapper({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: Get.nestedKey(HomeNavigation.id),
-      onGenerateRoute: (routeSetting) {
-        if (routeSetting.name == HomeNavigation.settings) {
-          return GetPageRoute(
-            routeName: HomeNavigation.settings,
-            page: () => AccountSettings(
-              id: HomeNavigation.id,
-              first: false,
-              arguments: routeSetting.arguments,
-            ),
-          );
-        } else {
-          return GetPageRoute(
-            routeName: HomeNavigation.main,
-            page: () => AccountSettings(
-              id: HomeNavigation.id,
-              first: true,
-              arguments: routeSetting.arguments,
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-
-class AccountSettings extends StatelessWidget {
-  final int? id;
-  final bool first;
-  final Object? arguments;
-
-  const AccountSettings(
-      {Key? key, this.id, required this.first, this.arguments})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (first) {
-      return HomeView();
-    } else {
-      return HomeCategories(
-        settingType: arguments,
-      );
-    }
-  }
-}
-
-class HomeCategories extends StatelessWidget {
-  const HomeCategories({super.key, this.settingType});
-  final Object? settingType;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          backgroundColor: CustomeColors.primary,
-          title: Text(
-            settingType.toString(),
-            // style: smallTextStyle.copyWith(
-            //     fontSize: 18,
-            //     color: CustomColors.blackColor,
-            //     fontWeight: FontWeight.w500)
-          ),
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: getDisplayView(settingType),
-        ));
-  }
-}
-
-getDisplayView(settingType) {
-  switch (settingType) {
-    case 'Task':
-      return TaskView();
-    case 'Report':
-      return Report();
-    case 'Calender':
-      return const CalenderVC();
-    case 'Leave':
-      return const LeaveVC();
-
-    default:
   }
 }

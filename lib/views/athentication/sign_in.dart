@@ -81,7 +81,7 @@ class SignInView extends StatelessWidget {
               CommonButton(
                 title: "Sign In",
                 onTap: () async {
-                 await  _authService.signInUser(
+                  _authService.signInUser(
                       email: emailController.text,
                       staffId: passWordController.text, 
                       context: context);

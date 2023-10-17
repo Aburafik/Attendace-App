@@ -53,7 +53,7 @@ Future<bool> showExitPopup(context) async {
   );
 }
 
-Future<dynamic> loadingBar(BuildContext context) {
+Future<dynamic> loadingBar(BuildContext context, {Widget? widget}) {
   return showDialog(
     // barrierDismissible: false,
     context: context,
@@ -61,17 +61,13 @@ Future<dynamic> loadingBar(BuildContext context) {
       return AlertDialog(
         backgroundColor: CustomeColors.white.withOpacity(0.0),
         elevation: 0.0,
-        content: const Column(
+        content: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            // LoadingAnimationWidget.discreteCircle(
-            //     color: CustomColors.primaryColor,
-            //     secondRingColor: CustomColors.secondaryColor,
-            //     size: 60),
+            widget ?? const CircularProgressIndicator(),
             SizedBox(height: 6),
             Center(
-              child: Text(""),
+              child: Text("Please wait..."),
             ),
           ],
         ),
@@ -81,9 +77,16 @@ Future<dynamic> loadingBar(BuildContext context) {
 }
 
 showSnackBar({String? message, bool isError = false}) {
-  return Get.snackbar("", message!,
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: isError ? Colors.red : CustomeColors.primary);
+  return Get.snackbar(
+    message!,
+    "",
+    titleText: Text(
+      message,
+      style: TextStyle(color: CustomeColors.white),
+    ),
+    snackPosition: SnackPosition.TOP,
+    backgroundColor: isError ? Colors.red : CustomeColors.primary,
+  );
 }
 
 Padding headingText({String? title}) {
@@ -92,3 +95,9 @@ Padding headingText({String? title}) {
     child: Text(title!),
   );
 }
+ AppBar commonAppBar() {
+    return AppBar(
+          surfaceTintColor: CustomeColors.white,
+          backgroundColor: Colors.white,
+        );
+  }

@@ -24,7 +24,7 @@ class _DashBoardViewState extends State<DashBoardView> {
     _pageController = PageController(initialPage: _pageIndex);
 
     screens = [
-      HomeViewWrapper(),
+      HomeView(),
       const Center(
         child: Text("Profile"),
       ),
