@@ -1,4 +1,7 @@
+import 'package:attendance_app/components/common_textfield.dart';
+import 'package:attendance_app/services/user_auth.dart';
 import 'package:attendance_app/utils/colors.dart';
+import 'package:attendance_app/utils/constant.dart';
 import 'package:attendance_app/utils/router.dart';
 import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:feather_icons/feather_icons.dart';
@@ -6,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 class SignInView extends StatelessWidget {
-  const SignInView({super.key});
-
+  SignInView({super.key});
+  final AuthService _authService = AuthService();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passWordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +45,15 @@ class SignInView extends StatelessWidget {
                 ),
               ),
               headingText(title: "Enter your co operate email"),
-              const CommonFieldComponent(
+              CommonFieldComponent(
                 hintText: "jacon@nextgen.com",
+                controller: emailController,
               ),
               headingText(title: "Enter your staff ID"),
-              const CommonFieldComponent(
+              CommonFieldComponent(
                 hintText: "HB-012",
                 prefixIcon: Icon(FeatherIcons.eyeOff),
+                controller: passWordController,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,51 +80,16 @@ class SignInView extends StatelessWidget {
               const SizedBox(height: 30),
               CommonButton(
                 title: "Sign In",
-                onTap: () {
-                  Get.toNamed(AppRouter.dashboard);
+                onTap: () async {
+                 await  _authService.signInUser(
+                      email: emailController.text,
+                      staffId: passWordController.text, 
+                      context: context);
+                  // Get.toNamed(AppRouter.dashboard);
                 },
               )
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Padding headingText({String? title}) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
-      child: Text(title!),
-    );
-  }
-}
-
-class CommonFieldComponent extends StatelessWidget {
-  const CommonFieldComponent({
-    super.key,
-    this.prefixIcon,
-    this.controller,
-    this.hintText,
-  });
-  final Widget? prefixIcon;
-  final TextEditingController? controller;
-  final String? hintText;
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: CustomeColors.white,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: const BorderSide(color: Color(0xffDAE1E1))),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              suffixIcon: prefixIcon,
-              hintText: hintText,
-              hintStyle: const TextStyle(color: Color(0xffDAE1E1))),
         ),
       ),
     );

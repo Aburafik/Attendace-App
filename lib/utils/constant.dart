@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:attendance_app/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 Future<bool> showExitPopup(context) async {
   return await showDialog(
@@ -49,5 +50,45 @@ Future<bool> showExitPopup(context) async {
         ),
       );
     },
+  );
+}
+
+Future<dynamic> loadingBar(BuildContext context) {
+  return showDialog(
+    // barrierDismissible: false,
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: CustomeColors.white.withOpacity(0.0),
+        elevation: 0.0,
+        content: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            // LoadingAnimationWidget.discreteCircle(
+            //     color: CustomColors.primaryColor,
+            //     secondRingColor: CustomColors.secondaryColor,
+            //     size: 60),
+            SizedBox(height: 6),
+            Center(
+              child: Text(""),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+showSnackBar({String? message, bool isError = false}) {
+  return Get.snackbar("", message!,
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: isError ? Colors.red : CustomeColors.primary);
+}
+
+Padding headingText({String? title}) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 20, bottom: 10),
+    child: Text(title!),
   );
 }

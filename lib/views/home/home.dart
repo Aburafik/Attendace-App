@@ -1,6 +1,12 @@
 import 'package:attendance_app/utils/colors.dart';
+import 'package:attendance_app/views/dashboard/splash.dart';
+import 'package:attendance_app/views/home/calender/calender.dart';
+import 'package:attendance_app/views/home/leave/leave.dart';
+import 'package:attendance_app/views/home/reports/report.dart';
+import 'package:attendance_app/views/home/task/task.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -38,7 +44,7 @@ class HomeView extends StatelessWidget {
           IconButton(
               onPressed: () {},
               icon: Icon(
-                FeatherIcons.bell,
+                Icons.fingerprint,
                 color: CustomeColors.white,
               ))
         ],
@@ -71,12 +77,34 @@ class HomeView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6)),
                   elevation: 1,
                   surfaceTintColor: CustomeColors.white,
-                  child: Container(
+                  child: SizedBox(
                     height: 100,
                     width: MediaQuery.sizeOf(context).width,
-                    child: const Column(children: [
-                      Text("Attendance Summary"),
-                    ]),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "Work Summary",
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [Text("Reports"), Text("23")],
+                                ),
+                                Column(
+                                  children: [Text("Attendance"), Text("23")],
+                                ),
+                                Column(
+                                  children: [Text("Leave"), Text("23")],
+                                )
+                              ],
+                            )
+                          ]),
+                    ),
                   ),
                 ),
               )
@@ -115,15 +143,40 @@ class HomeView extends StatelessWidget {
                       title: "Leave",
                       icon: FeatherIcons.fileText,
                     ),
-                    OfficeServiceWidget(
-                      title: "Clock In",
-                      icon: Icons.fingerprint,
-                    ),
+                    // OfficeServiceWidget(
+                    //   title: "Clock In",
+                    //   icon: Icons.fingerprint,
+                    // ),
                   ],
                 )
               ],
             ),
+          ),
+          Spacer(),
+          GestureDetector(
+            onTap: () {
+              // print("CLOCK IN");
+            },
+            child: Align(
+                child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: CustomeColors.primary,
+                  child: Icon(
+                    Icons.fingerprint_rounded,
+                    color: CustomeColors.white,
+                  ),
+                ),
+                Text(
+                  "Clock In",
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w500),
+                )
+              ],
+            )),
           )
+          // CommonButton(title: "CLock In",)
         ],
       ),
     );
@@ -140,24 +193,130 @@ class OfficeServiceWidget extends StatelessWidget {
   final IconData? icon;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: const Color(0xffFEF1F6),
-          child: Icon(
-            icon,
-            color: CustomeColors.primary,
-            size: 40,
+    return GestureDetector(
+      onTap: () => Get.toNamed(HomeNavigation.settings,
+          id: HomeNavigation.id, arguments: title),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: const Color(0xffFEF1F6),
+            child: Icon(
+              icon,
+              color: CustomeColors.primary,
+              size: 40,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            title!,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class HomeNavigation {
+  HomeNavigation._();
+
+  static const id = 1;
+
+  static const main = '/main';
+  static const settings = '/categories';
+}
+
+class HomeViewWrapper extends StatelessWidget {
+  const HomeViewWrapper({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: Get.nestedKey(HomeNavigation.id),
+      onGenerateRoute: (routeSetting) {
+        if (routeSetting.name == HomeNavigation.settings) {
+          return GetPageRoute(
+            routeName: HomeNavigation.settings,
+            page: () => AccountSettings(
+              id: HomeNavigation.id,
+              first: false,
+              arguments: routeSetting.arguments,
+            ),
+          );
+        } else {
+          return GetPageRoute(
+            routeName: HomeNavigation.main,
+            page: () => AccountSettings(
+              id: HomeNavigation.id,
+              first: true,
+              arguments: routeSetting.arguments,
+            ),
+          );
+        }
+      },
+    );
+  }
+}
+
+class AccountSettings extends StatelessWidget {
+  final int? id;
+  final bool first;
+  final Object? arguments;
+
+  const AccountSettings(
+      {Key? key, this.id, required this.first, this.arguments})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (first) {
+      return HomeView();
+    } else {
+      return HomeCategories(
+        settingType: arguments,
+      );
+    }
+  }
+}
+
+class HomeCategories extends StatelessWidget {
+  const HomeCategories({super.key, this.settingType});
+  final Object? settingType;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: CustomeColors.primary,
+          title: Text(
+            settingType.toString(),
+            // style: smallTextStyle.copyWith(
+            //     fontSize: 18,
+            //     color: CustomColors.blackColor,
+            //     fontWeight: FontWeight.w500)
           ),
         ),
-        const SizedBox(height: 5),
-        Text(
-          title!,
-          textAlign: TextAlign.center,
-        )
-      ],
-    );
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: getDisplayView(settingType),
+        ));
+  }
+}
+
+getDisplayView(settingType) {
+  switch (settingType) {
+    case 'Task':
+      return TaskView();
+    case 'Report':
+      return Report();
+    case 'Calender':
+      return const CalenderVC();
+    case 'Leave':
+      return const LeaveVC();
+
+    default:
   }
 }

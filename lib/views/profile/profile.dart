@@ -40,8 +40,8 @@ class ProfileView extends StatelessWidget {
                 )
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
               child: Text("ABout"),
             )
           ],
