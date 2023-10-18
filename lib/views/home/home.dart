@@ -1,5 +1,8 @@
+import 'package:attendance_app/controllers/attendance_controller.dart';
 import 'package:attendance_app/controllers/employee_controller.dart';
+import 'package:attendance_app/controllers/task_controller.dart';
 import 'package:attendance_app/services/attendance_service.dart';
+import 'package:attendance_app/services/user_auth.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/router.dart';
 import 'package:feather_icons/feather_icons.dart';
@@ -82,25 +85,44 @@ class HomeView extends StatelessWidget {
                   child: SizedBox(
                     height: 100,
                     width: MediaQuery.sizeOf(context).width,
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
+                            const Text(
                               "Work Summary",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  children: [Text("Reports"), Text("23")],
-                                ),
-                                Column(
-                                  children: [Text("Attendance"), Text("23")],
-                                ),
-                                Column(
+                                GetBuilder<TaskController>(
+                                    builder: (controller) {
+                                  return Column(
+                                    children: [
+                                      const Text("Reports"),
+                                      Text(taskController
+                                          .employeeTaskHistory.length
+                                          .toString())
+                                    ],
+                                  );
+                                }),
+                                GetBuilder<AttendanceController>(
+                                    builder: (controller) {
+                                  return Column(
+                                    children: [
+                                      const Text("Attendance"),
+                                      Text(attendanceController
+                                          .employeeAttendanceHistory.length
+                                          .toString())
+                                    ],
+                                  );
+                                }),
+                                // const Column(
+                                //   children: [Text("Attendance"), Text("23")],
+                                // ),
+                                const Column(
                                   children: [Text("Leave"), Text("23")],
                                 )
                               ],

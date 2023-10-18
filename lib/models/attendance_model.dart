@@ -16,7 +16,7 @@ class AttendanceModel {
   String employee;
   String email;
   DateTime clockInTime;
-  dynamic clockOutTime;
+  DateTime clockOutTime;
   int v;
 
   AttendanceModel({
@@ -34,7 +34,7 @@ class AttendanceModel {
         employee: json["employee"],
         email: json["email"],
         clockInTime: DateTime.parse(json["clockInTime"]),
-        clockOutTime: json["clockOutTime"],
+        clockOutTime: DateTime.parse(json["clockOutTime"]),
         v: json["__v"],
       );
 

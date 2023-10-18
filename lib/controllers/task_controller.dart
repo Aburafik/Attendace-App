@@ -9,7 +9,7 @@ TaskService taskService = TaskService();
 
 class TaskController extends GetxController {
   var isLoading = true.obs;
-  var employeeTaskHistory = <EmployeeTaskModel>[].obs;
+  var employeeTaskHistory = <EmployeeTaskModel>[];
 
   @override
   void onInit() {
@@ -25,10 +25,11 @@ class TaskController extends GetxController {
       if (employeeTask != null) {
         print(
             "################################################################");
-        employeeTaskHistory.value = employeeTask;
+        employeeTaskHistory = employeeTask;
         print(
             "#####################${employeeTaskHistory[0].description}###################");
       }
     } finally {}
+    update();
   }
 }

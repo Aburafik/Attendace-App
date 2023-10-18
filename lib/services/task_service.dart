@@ -69,4 +69,43 @@ class TaskService {
     }
     return null!;
   }
+
+  //UPDATE T
+  Future updateTask({
+    String? title,
+    String? description,
+    String? taskId,
+    BuildContext? context,
+  }) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //Get  stored employee Id
+    String id = sharedPreferences.getString("userId")!;
+
+    loadingBar(context!);
+    try {
+      final res = await _connect.patch(
+          "${APIEndpoints.base_url}/${APIEndpoints.update_task}$taskId",
+          {"title": title, "description": description, "employeeId": id});
+      if (res.statusCode == 200) {
+        logger.d(res.body);
+        String message = res.body['message'];
+        if (context.mounted) {
+          taskController.getAllTask();
+          Navigator.pop(context);
+          showSnackBar(message: message);
+        }
+      } else {
+        logger.d(res.body);
+        if (context.mounted) {
+          Navigator.pop(context);
+          logger.d(res.body);
+          showSnackBar(message: 'Error Creating Task', isError: true);
+        }
+
+        return null!;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
