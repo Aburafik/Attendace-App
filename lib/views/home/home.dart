@@ -2,13 +2,8 @@ import 'package:attendance_app/controllers/employee_controller.dart';
 import 'package:attendance_app/services/attendance_service.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/router.dart';
-import 'package:attendance_app/views/home/calender/calender.dart';
-import 'package:attendance_app/views/home/leave/leave.dart';
-import 'package:attendance_app/views/home/reports/report.dart';
-import 'package:attendance_app/views/home/task/task.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 // import 'package:loading_indicator/loading_indicator.dart';
 
@@ -167,7 +162,8 @@ class HomeView extends StatelessWidget {
           const Spacer(),
           GestureDetector(
             onTap: () async {
-              _attendanceService.markAttendance(context: context,type: "clock-in");
+              _attendanceService.markAttendance(
+                  context: context, type: "clock-in");
               // Navigator.pop(context);
             },
             child: Align(

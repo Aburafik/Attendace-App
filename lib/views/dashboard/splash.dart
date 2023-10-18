@@ -1,12 +1,12 @@
-import 'dart:async';
+import 'package:attendance_app/controllers/attendance_controller.dart';
 import 'package:attendance_app/controllers/employee_controller.dart';
+import 'package:attendance_app/controllers/task_controller.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/images.dart';
 import 'package:attendance_app/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -17,10 +17,14 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
   final EmployeeController employeeController = Get.put(EmployeeController());
-
+  final AttendanceController attendanceController =
+      Get.put(AttendanceController());
+  final TaskController taskController = Get.put(TaskController());
   @override
   void initState() {
     employeeController.onInit();
+    attendanceController.onInit();
+    taskController.onInit();
     super.initState();
     //   Timer(const Duration(seconds: 3), () async {
     //   SharedPreferences sharedPreferences =

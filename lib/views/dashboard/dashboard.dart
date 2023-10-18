@@ -1,5 +1,6 @@
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/constant.dart';
+import 'package:attendance_app/views/attendance/attendance_history.dart';
 import 'package:attendance_app/views/home/home.dart';
 import 'package:attendance_app/views/profile/profile.dart';
 import 'package:feather_icons/feather_icons.dart';
@@ -25,9 +26,7 @@ class _DashBoardViewState extends State<DashBoardView> {
 
     screens = [
       HomeView(),
-      const Center(
-        child: Text("Profile"),
-      ),
+      AttendanceHistory(),
       ProfileView(),
 
       ////////////

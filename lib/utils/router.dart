@@ -27,7 +27,7 @@ class AppRouter {
         name: dashboard,
         page: () => const DashBoardView(),
         curve: Curves.easeIn),
-    GetPage(name: Task, page: () => const TaskView(), curve: Curves.easeIn),
+    GetPage(name: Task, page: () => TaskView(), curve: Curves.easeIn),
     GetPage(name: Report, page: () => const Reports(), curve: Curves.easeIn),
     GetPage(
         name: Calender, page: () => const CalenderVC(), curve: Curves.easeIn),

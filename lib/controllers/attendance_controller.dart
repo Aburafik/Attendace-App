@@ -13,7 +13,7 @@ class AttendanceController extends GetxController {
 
   @override
   void onInit() {
-    getUser();
+    // getUser();
     // TODO: implement onInit
     super.onInit();
   }
