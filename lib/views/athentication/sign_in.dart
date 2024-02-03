@@ -2,17 +2,15 @@ import 'package:attendance_app/components/common_textfield.dart';
 import 'package:attendance_app/services/user_auth.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/constant.dart';
-import 'package:attendance_app/utils/router.dart';
 import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 
 class SignInView extends StatelessWidget {
   SignInView({super.key});
   final AuthService _authService = AuthService();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passWordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passWordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,15 +42,15 @@ class SignInView extends StatelessWidget {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
                 ),
               ),
-              headingText(title: "Enter your co operate email"),
+              headingText(title: "Enter email"),
               CommonFieldComponent(
                 hintText: "jacon@nextgen.com",
                 controller: emailController,
               ),
-              headingText(title: "Enter your staff ID"),
+              headingText(title: "Enter password"),
               CommonFieldComponent(
-                hintText: "HB-012",
-                prefixIcon: Icon(FeatherIcons.eyeOff),
+                hintText: "********",
+                prefixIcon: const Icon(FeatherIcons.eyeOff),
                 controller: passWordController,
               ),
               Row(
@@ -83,7 +81,7 @@ class SignInView extends StatelessWidget {
                 onTap: () async {
                   _authService.signInUser(
                       email: emailController.text,
-                      staffId: passWordController.text, 
+                      staffId: passWordController.text,
                       context: context);
                   // Get.toNamed(AppRouter.dashboard);
                 },

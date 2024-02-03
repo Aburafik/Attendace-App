@@ -7,16 +7,20 @@ class CommonFieldComponent extends StatelessWidget {
     this.prefixIcon,
     this.controller,
     this.hintText,
+    this.hintColor,
     this.maxLines,
     this.minLines,
-    this.keyboardType, this.maxLength,
+    this.enable = true,
+    this.keyboardType,
   });
   final Widget? prefixIcon;
   final TextEditingController? controller;
   final String? hintText;
   final int? maxLines;
   final int? minLines;
-  final int? maxLength;
+  final bool enable;
+  final Color? hintColor;
+  // final int? maxLength;
   final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
@@ -28,16 +32,17 @@ class CommonFieldComponent extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: TextField(
+          enabled: enable,
           controller: controller,
           keyboardType: keyboardType,
           minLines: minLines,
-          maxLines: maxLines??1,
-          maxLength: maxLength,
+          maxLines: maxLines ?? 1,
+          // maxLength: maxLength,
           decoration: InputDecoration(
               border: InputBorder.none,
               suffixIcon: prefixIcon,
               hintText: hintText,
-              hintStyle: const TextStyle(color: Color(0xffDAE1E1))),
+              hintStyle:  TextStyle(color:hintColor?? const Color(0xffDAE1E1))),
         ),
       ),
     );

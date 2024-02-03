@@ -2,6 +2,8 @@
 
 import 'package:attendance_app/controllers/attendance_controller.dart';
 import 'package:attendance_app/controllers/employee_controller.dart';
+import 'package:attendance_app/controllers/leave_controller.dart';
+import 'package:attendance_app/controllers/reports_controller.dart';
 import 'package:attendance_app/controllers/task_controller.dart';
 import 'package:attendance_app/models/user_model.dart';
 import 'package:attendance_app/utils/api_endpoints.dart';
@@ -16,6 +18,8 @@ final EmployeeController userController = Get.find<EmployeeController>();
 final AttendanceController attendanceController =
     Get.find<AttendanceController>();
 final TaskController taskController = Get.find<TaskController>();
+final LeaveController leaveController = Get.find<LeaveController>();
+final ReportController reportsController = Get.find<ReportController>();
 
 class AuthService {
   final GetConnect _connect = GetConnect(timeout: const Duration(seconds: 30));
@@ -43,6 +47,8 @@ class AuthService {
           userController.setuser(Employee.fromJson(res.body['employee']));
           attendanceController.getUser();
           taskController.getAllTask();
+          leaveController.getAllLeaveHistiry();
+          reportsController.getReports();
         }
       } else {
         String message = res.body['message'];

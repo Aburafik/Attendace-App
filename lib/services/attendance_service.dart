@@ -60,7 +60,7 @@ class AttendanceService {
       String message = res.body['message'];
       logger.d(res.body);
       if (context.mounted) {
-      _attendanceController.getUser();
+        _attendanceController.getUser();
 
         // Get.toNamed(AppRouter.dashboard);
 

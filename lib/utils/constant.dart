@@ -95,9 +95,11 @@ Padding headingText({String? title}) {
     child: Text(title!),
   );
 }
- AppBar commonAppBar() {
-    return AppBar(
-          surfaceTintColor: CustomeColors.white,
-          backgroundColor: Colors.white,
-        );
-  }
+
+AppBar commonAppBar({String? title}) {
+  return AppBar(
+    surfaceTintColor: CustomeColors.white,
+    backgroundColor: Colors.white,
+    title: Text(title!),
+  );
+}

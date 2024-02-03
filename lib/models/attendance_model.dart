@@ -16,7 +16,7 @@ class AttendanceModel {
   String employee;
   String email;
   DateTime clockInTime;
-  DateTime clockOutTime;
+  DateTime? clockOutTime;
   int v;
 
   AttendanceModel({
@@ -34,7 +34,9 @@ class AttendanceModel {
         employee: json["employee"],
         email: json["email"],
         clockInTime: DateTime.parse(json["clockInTime"]),
-        clockOutTime: DateTime.parse(json["clockOutTime"]),
+        clockOutTime: json["clockOutTime"] == null
+            ? DateTime.parse("2023-11-13T00:00:32.453Z")
+            : DateTime.parse(json["clockOutTime"]),
         v: json["__v"],
       );
 
@@ -43,7 +45,7 @@ class AttendanceModel {
         "employee": employee,
         "email": email,
         "clockInTime": clockInTime.toIso8601String(),
-        "clockOutTime": clockOutTime,
+        "clockOutTime": clockOutTime?.toIso8601String(),
         "__v": v,
       };
 }

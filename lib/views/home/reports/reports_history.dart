@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:light_modal_bottom_sheet/light_modal_bottom_sheet.dart';
 
-class TaskHistory extends StatelessWidget {
-  TaskHistory({super.key, this.taskController});
+class ReportsHistory extends StatelessWidget {
+  ReportsHistory({super.key, this.taskController});
   TaskController? taskController;
   formatDate({int? index}) {
     final DateTime timeCreate =

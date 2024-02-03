@@ -1,10 +1,12 @@
-import 'package:attendance_app/controllers/attendance_controller.dart';
 import 'package:attendance_app/controllers/employee_controller.dart';
+import 'package:attendance_app/controllers/leave_controller.dart';
+import 'package:attendance_app/controllers/reports_controller.dart';
 import 'package:attendance_app/controllers/task_controller.dart';
 import 'package:attendance_app/services/attendance_service.dart';
-import 'package:attendance_app/services/user_auth.dart';
 import 'package:attendance_app/utils/colors.dart';
+import 'package:attendance_app/utils/images.dart';
 import 'package:attendance_app/utils/router.dart';
+import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +18,10 @@ class HomeView extends StatelessWidget {
   final AttendanceService _attendanceService = AttendanceService();
   @override
   Widget build(BuildContext context) {
-    var smallTextStyle = TextStyle(fontSize: 11, color: CustomeColors.grey);
+    DateTime now = DateTime.now();
+
+    var textStyle = TextStyle(
+        fontSize: 16, fontWeight: FontWeight.w600, color: CustomeColors.black);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -25,195 +30,239 @@ class HomeView extends StatelessWidget {
         title: Obx(() {
           return Row(
             children: [
-              const CircleAvatar(
-                radius: 25,
-              ),
               const SizedBox(width: 5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userController.user.value.name!,
-                    style: TextStyle(color: CustomeColors.lightGrey),
+                  Image.asset(
+                    CustomImagaes.hand,
+                    height: 20,
                   ),
                   Text(
+                    "Hey ${userController.user.value.name!}",
+                    style: TextStyle(color: CustomeColors.white, fontSize: 14),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
                     userController.user.value.role!,
-                    style: smallTextStyle,
+                    style: smallTextStyle.copyWith(color: CustomeColors.white),
                   ),
                 ],
               )
             ],
           );
         }),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.fingerprint,
-                color: CustomeColors.white,
-              ))
-        ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 100,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                width: MediaQuery.sizeOf(context).width,
-                color: CustomeColors.primary,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "How are you doing",
-                      style: smallTextStyle.copyWith(
-                          color: CustomeColors.white, fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                  elevation: 1,
-                  surfaceTintColor: CustomeColors.white,
-                  child: SizedBox(
-                    height: 100,
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text(
-                              "Work Summary",
-                              style: TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GetBuilder<TaskController>(
-                                    builder: (controller) {
-                                  return Column(
-                                    children: [
-                                      const Text("Reports"),
-                                      Text(taskController
-                                          .employeeTaskHistory.length
-                                          .toString())
-                                    ],
-                                  );
-                                }),
-                                GetBuilder<AttendanceController>(
-                                    builder: (controller) {
-                                  return Column(
-                                    children: [
-                                      const Text("Attendance"),
-                                      Text(attendanceController
-                                          .employeeAttendanceHistory.length
-                                          .toString())
-                                    ],
-                                  );
-                                }),
-                                // const Column(
-                                //   children: [Text("Attendance"), Text("23")],
-                                // ),
-                                const Column(
-                                  children: [Text("Leave"), Text("23")],
-                                )
-                              ],
-                            )
-                          ]),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Office Services",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: CustomeColors.black),
-                ),
-                const SizedBox(height: 20),
-                Wrap(
-                  spacing: 40,
-                  runSpacing: 20,
-                  children: [
-                    OfficeServiceWidget(
-                      title: "Task",
-                      icon: Icons.task,
-                      onTap: () => Get.toNamed(AppRouter.Task),
-                    ),
-                    OfficeServiceWidget(
-                      title: "Report",
-                      icon: FeatherIcons.file,
-                      onTap: () => Get.toNamed(AppRouter.Report),
-                    ),
-                    OfficeServiceWidget(
-                      title: "Calender",
-                      icon: FeatherIcons.calendar,
-                      onTap: () => Get.toNamed(AppRouter.Calender),
-                    ),
-                    OfficeServiceWidget(
-                      title: "Leave",
-                      icon: FeatherIcons.fileText,
-                      onTap: () => Get.toNamed(AppRouter.Leave),
-                    ),
-                    // OfficeServiceWidget(
-                    //   title: "Clock In",
-                    //   icon: Icons.fingerprint,
-                    // ),
-                  ],
-                )
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height / 7,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: index == 0
+                            ? () => Get.toNamed(AppRouter.Task)
+                            : index == 1
+                                ? () => Get.toNamed(AppRouter.leaveHistory)
+                                : () {},
+                        child: Container(
+                          padding: const EdgeInsetsDirectional.all(5),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 15),
+                          decoration: BoxDecoration(
+                              color: CustomeColors.primary,
+                              borderRadius: BorderRadius.circular(10)),
+                          width: MediaQuery.sizeOf(context).width / 1.7,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                topItems[index]["icon"],
+                                color: CustomeColors.white,
+                                size: 20,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                  child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    topItems[index]["title"],
+                                    style: smallTextStyle.copyWith(
+                                        fontSize: 16,
+                                        color: CustomeColors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    topItems[index]["subTitle"],
+                                    style: smallTextStyle,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      "View",
+                                      style: smallTextStyle,
+                                    ),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                      ),
+                  itemCount: topItems.length),
             ),
-          ),
-
-          const Spacer(),
-          GestureDetector(
-            onTap: () async {
-              _attendanceService.markAttendance(
-                  context: context, type: "clock-in");
-              // Navigator.pop(context);
-            },
-            child: Align(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: CustomeColors.primary,
-                    child: Icon(
-                      Icons.fingerprint_rounded,
-                      color: CustomeColors.white,
-                    ),
+                  Text(
+                    "Categories",
+                    style: textStyle,
                   ),
-                  const Text(
-                    "Clock In",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  )
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child:
+                            GetBuilder<TaskController>(builder: (controller) {
+                          return OfficeServiceWidget(
+                            title: "Task",
+                            subTitle: controller.employeeTaskHistory.length
+                                .toString(),
+                            icon: Icons.list,
+                            onTap: () => Get.toNamed(AppRouter.Task),
+                          );
+                        }),
+                      ),
+                      const SizedBox(width: 30),
+                      Expanded(
+                        child:
+                            GetBuilder<ReportController>(builder: (controller) {
+                          return OfficeServiceWidget(
+                            title: "Report",
+                            icon: FeatherIcons.file,
+                            subTitle: controller.employeeReportsHistory.length
+                                .toString(),
+                            onTap: () => Get.toNamed(AppRouter.Report),
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OfficeServiceWidget(
+                          title: "Calender",
+                          icon: FeatherIcons.calendar,
+                          onTap: () => Get.toNamed(AppRouter.Calender),
+                        ),
+                      ),
+                      const SizedBox(width: 30),
+                      Expanded(
+                        child:
+                            GetBuilder<LeaveController>(builder: (controller) {
+                          return OfficeServiceWidget(
+                            title: "Leave Request",
+                            icon: FeatherIcons.fileText,
+                            subTitle: controller.employeeLeaveHistory.length
+                                .toString(),
+                            onTap: () => Get.toNamed(AppRouter.Leave),
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
                 ],
+                /////////
               ),
             ),
-          )
-          // CommonButton(title: "CLock In",)
-        ],
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height / 8,
+            ),
+            Center(
+                child: GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(),
+                    context: context,
+                    builder: (context) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SafeArea(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    now.hour < 12
+                                        ? "Register your presence and start work"
+                                        : "Sign your departure and have a happy day",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                CommonButton(
+                                  title: "Clock-In",
+                                  onTap: () async {
+                                    _attendanceService
+                                        .markAttendance(
+                                            context: context, type: "clock-in")
+                                        .whenComplete(
+                                            () => Navigator.pop(context));
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                CommonButton(
+                                  title: "Clock-Out",
+                                  onTap: () async {
+                                    _attendanceService
+                                        .markAttendance(
+                                            context: context, type: "clock-out")
+                                        .whenComplete(
+                                            () => Navigator.pop(context));
+                                    // Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ));
+              },
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: CustomeColors.primary,
+                child: const Icon(FeatherIcons.twitch),
+              ),
+            ))
+          ],
+        ),
       ),
     );
+  }
+
+  Material materialButton({
+    String? text,
+  }) {
+    return Material(
+        color: CustomeColors.primary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Text(
+            text!,
+            style: TextStyle(color: CustomeColors.white),
+          ),
+        ));
   }
 }
 
@@ -223,33 +272,74 @@ class OfficeServiceWidget extends StatelessWidget {
     this.title,
     this.icon,
     this.onTap,
+    this.subTitle,
   });
   final String? title;
+  final String? subTitle;
   final IconData? icon;
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: const Color(0xffFEF1F6),
-            child: Icon(
-              icon,
-              color: CustomeColors.primary,
-              size: 40,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 100,
+        decoration: BoxDecoration(
+            // color: CustomeColors.primary,
+            color: const Color(0xffEFF3FE),
+            borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  icon,
+                  color: CustomeColors.primary,
+                  size: 30,
+                ),
+                Icon(
+                  Icons.more_vert,
+                  size: 20,
+                  color: CustomeColors.primary,
+                )
+              ],
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            title!,
-            textAlign: TextAlign.center,
-          )
-        ],
+            Column(
+              children: [
+                Text(
+                  title!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: CustomeColors.primary),
+                ),
+                Text(subTitle ?? "", style: smallTextStyle)
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 }
+
+List<Map> topItems = [
+  {
+    "title": "Todays Task",
+    "subTitle": "View all today created task",
+    "icon": FeatherIcons.list
+  },
+  {
+    "title": "Recent Leave Request",
+    "subTitle": "Check the status of your recent leave requests",
+    "icon": FeatherIcons.file
+  },
+  {
+    "title": "Notifications",
+    "subTitle": "Stay updated of all informations from the company",
+    "icon": FeatherIcons.bell
+  }
+];
+var smallTextStyle = TextStyle(fontSize: 11, color: CustomeColors.grey);

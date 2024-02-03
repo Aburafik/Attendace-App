@@ -1,5 +1,7 @@
 import 'package:attendance_app/controllers/attendance_controller.dart';
 import 'package:attendance_app/controllers/employee_controller.dart';
+import 'package:attendance_app/controllers/leave_controller.dart';
+import 'package:attendance_app/controllers/reports_controller.dart';
 import 'package:attendance_app/controllers/task_controller.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/images.dart';
@@ -7,6 +9,8 @@ import 'package:attendance_app/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -20,24 +24,47 @@ class _SplashViewState extends State<SplashView> {
   final AttendanceController attendanceController =
       Get.put(AttendanceController());
   final TaskController taskController = Get.put(TaskController());
+  final LeaveController leaveController = Get.put(LeaveController());
+  final ReportController reportController = Get.put(ReportController());
+  IO.Socket? socket;
   @override
   void initState() {
     employeeController.onInit();
     attendanceController.onInit();
     taskController.onInit();
+    leaveController.onInit();
+    reportController.onInit();
+    getUserDataIfloggegIn();
+
+    // initSocket();
     super.initState();
-    //   Timer(const Duration(seconds: 3), () async {
-    //   SharedPreferences sharedPreferences =
-    //       await SharedPreferences.getInstance();
-    //   if (sharedPreferences.getString("userId") != null) {
-    //     // authService.getInUser();
-    //     Get.toNamed(AppRouter.dashboard);
-    //     print(sharedPreferences.getString("userId"));
-    //   } else {
-    //     Get.toNamed(AppRouter.signIn);
-    //   }
-    // });
   }
+
+  getUserDataIfloggegIn() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String employeedId = sharedPreferences.getString("userId")!;
+    if (employeedId.isNotEmpty) {
+      attendanceController.getUser();
+      taskController.getAllTask();
+      leaveController.getAllLeaveHistiry();
+      reportController.getReports();
+    }
+  }
+
+  // initSocket() {
+  //   socket = IO
+  //       .io("http://localhost:3000/api/admin/notifications", <String, dynamic>{
+  //     'autoConnect': true,
+  //     'transports': ['websocket'],
+  //   });
+  //   socket!.connect();
+  //   socket!.onConnect((_) {
+  //     print('Connection established');
+  //   });
+  //   socket!.onDisconnect((_) => print('Connection Disconnection'));
+  //   socket!.onConnectError((err) => print(err));
+  //   socket!.onError((err) => print(err));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +118,16 @@ class _SplashViewState extends State<SplashView> {
                   children: [
                     SafeArea(
                       child: CommonButton(
-                        title: "Continue",
-                        onTap: () => Get.toNamed(AppRouter.signIn),
-                      ),
+                          title: "Continue",
+                          onTap: () async {
+                            SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                            String userId =
+                                sharedPreferences.getString("userId")!;
+                            userId.isNotEmpty
+                                ? Get.toNamed(AppRouter.dashboard)
+                                : Get.toNamed(AppRouter.signIn);
+                          }),
                     )
                   ],
                 ),

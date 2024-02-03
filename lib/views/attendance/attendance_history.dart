@@ -12,7 +12,7 @@ class AttendanceHistory extends StatelessWidget {
 
   formatDate({int? index}) {
     final DateTime clockIn =
-        attendanceController.employeeAttendanceHistory[index!].clockInTime;
+        attendanceController.employeeAttendanceHistory.reversed.toList()[index!].clockInTime;
     final DateFormat formatter = DateFormat("MMM d");
     final String formatted = formatter.format(clockIn);
     return formatted;
@@ -20,7 +20,7 @@ class AttendanceHistory extends StatelessWidget {
 
   formatTime({int? index}) {
     final DateTime time =
-        attendanceController.employeeAttendanceHistory[index!].clockInTime;
+        attendanceController.employeeAttendanceHistory.reversed.toList()[index!].clockInTime;
     final DateFormat formatteredTime = DateFormat().add_jm();
     final String formattedTime = formatteredTime.format(time);
     return formattedTime;
@@ -28,7 +28,14 @@ class AttendanceHistory extends StatelessWidget {
 
   formatClockOutTime({int? index}) {
     final DateTime time =
-        attendanceController.employeeAttendanceHistory[index!].clockOutTime;
+        attendanceController.employeeAttendanceHistory.reversed.toList()[index!].clockOutTime!;
+    final DateFormat formatteredTime = DateFormat().add_jm();
+    final String formattedTime = formatteredTime.format(time);
+    return formattedTime;
+  }
+
+  defaultFormatClockOutTime() {
+    final DateTime time = DateTime.parse("2023-11-13T00:00:32.453Z");
     final DateFormat formatteredTime = DateFormat().add_jm();
     final String formattedTime = formatteredTime.format(time);
     return formattedTime;
@@ -37,7 +44,7 @@ class AttendanceHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: commonAppBar(),
+      appBar: commonAppBar(title: "Attendance",),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Obx(() {
@@ -88,7 +95,10 @@ class AttendanceHistory extends StatelessWidget {
                                       ),
                                       // Text(date),
                                       Text(time),
-                                      Text(clockOutTime),
+                                      Text(clockOutTime ==
+                                              defaultFormatClockOutTime()
+                                          ? "--:--"
+                                          : clockOutTime),
                                     ],
                                   ),
                                 ),
@@ -108,11 +118,14 @@ class AttendanceHistory extends StatelessWidget {
     Color? color,
   }) {
     return Material(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         color: color,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 15),
-          child: Text(title!),
+          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
+          child: Text(
+            title!,
+            style: const TextStyle(fontSize: 12),
+          ),
         ));
   }
 }

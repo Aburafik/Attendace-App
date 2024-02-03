@@ -5,6 +5,7 @@ import 'package:attendance_app/views/dashboard/dashboard.dart';
 import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:attendance_app/views/home/calender/calender.dart';
 import 'package:attendance_app/views/home/leave/leave.dart';
+import 'package:attendance_app/views/home/leave/leave_history.dart';
 import 'package:attendance_app/views/home/reports/report.dart';
 import 'package:attendance_app/views/home/task/task.dart';
 import 'package:flutter/widgets.dart';
@@ -18,6 +19,7 @@ class AppRouter {
   static const String Report = "/report";
   static const String Calender = "/calender";
   static const String Leave = "/leave";
+  static const String leaveHistory = "/leaveHistory";
 
   static List<GetPage> routes = [
     GetPage(
@@ -31,6 +33,8 @@ class AppRouter {
     GetPage(name: Report, page: () => const Reports(), curve: Curves.easeIn),
     GetPage(
         name: Calender, page: () => const CalenderVC(), curve: Curves.easeIn),
-    GetPage(name: Leave, page: () => const LeaveVC(), curve: Curves.easeIn),
+    GetPage(name: Leave, page: () => LeaveVC(), curve: Curves.easeIn),
+    GetPage(
+        name: leaveHistory, page: () => LeaveHistory(), curve: Curves.easeIn),
   ];
 }

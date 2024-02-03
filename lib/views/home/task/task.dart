@@ -1,10 +1,6 @@
-import 'package:attendance_app/components/common_textfield.dart';
 import 'package:attendance_app/controllers/task_controller.dart';
-import 'package:attendance_app/models/employee_task_model.dart';
-import 'package:attendance_app/services/task_service.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/constant.dart';
-import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:attendance_app/views/home/task/new_task.dart';
 import 'package:attendance_app/views/home/task/task_history.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +14,7 @@ class TaskView extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          appBar: commonAppBar(),
+          appBar: commonAppBar(title: "Task"),
           backgroundColor: CustomeColors.white,
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -7,7 +7,7 @@ class CalenderVC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: commonAppBar(),
+      appBar: commonAppBar(title: "Calender"),
       body: Center(
         child: Text("Calender"),
       ),

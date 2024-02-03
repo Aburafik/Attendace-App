@@ -10,7 +10,8 @@ class NewTaskViewComponent extends StatelessWidget {
   final TextEditingController descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return 
+    Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
@@ -33,7 +34,7 @@ class NewTaskViewComponent extends StatelessWidget {
                   keyboardType: TextInputType.multiline,
                   minLines: 1,
                   maxLines: 20,
-                  maxLength: 1000,
+                  // maxLength: 1000,
                   controller: descriptionController,
                 ),
               ],
