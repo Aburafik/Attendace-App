@@ -1,5 +1,6 @@
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/constant.dart';
+import 'package:attendance_app/utils/shared_prefs.dart';
 import 'package:attendance_app/views/attendance/attendance_history.dart';
 import 'package:attendance_app/views/home/home.dart';
 import 'package:attendance_app/views/profile/profile.dart';
@@ -20,6 +21,7 @@ class _DashBoardViewState extends State<DashBoardView> {
   List<Widget>? screens;
   @override
   void initState() {
+    print(getUserProfile());
     // userController.getUser();
 
     _pageController = PageController(initialPage: _pageIndex);

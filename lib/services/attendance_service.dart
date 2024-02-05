@@ -25,6 +25,7 @@ class AttendanceService {
     String employeedId = sharedPreferences.getString("userId")!;
     loadingBar(
       context!,
+      title: type == "clock-in" ? "Clocking in.." : "Clocking out..",
       widget: SizedBox(
         height: 200,
         child: LoadingIndicator(
@@ -55,6 +56,7 @@ class AttendanceService {
         showSnackBar(
           message: message,
         );
+        _attendanceController.getUser();
       }
     } else {
       String message = res.body['message'];

@@ -6,11 +6,20 @@ import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
-class SignInView extends StatelessWidget {
+class SignInView extends StatefulWidget {
   SignInView({super.key});
+
+  @override
+  State<SignInView> createState() => _SignInViewState();
+}
+
+class _SignInViewState extends State<SignInView> {
   final AuthService _authService = AuthService();
+
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passWordController = TextEditingController();
+  bool isObsecured = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +58,13 @@ class SignInView extends StatelessWidget {
               ),
               headingText(title: "Enter password"),
               CommonFieldComponent(
+                obscureText: isObsecured,
                 hintText: "********",
-                prefixIcon: const Icon(FeatherIcons.eyeOff),
+                prefixIcon: GestureDetector(
+                  child: Icon(
+                      isObsecured ? FeatherIcons.eyeOff : FeatherIcons.eye),
+                  onTap: () => setState(() => isObsecured = !isObsecured),
+                ),
                 controller: passWordController,
               ),
               Row(

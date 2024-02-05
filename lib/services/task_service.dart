@@ -24,7 +24,7 @@ class TaskService {
     //Get  stored employee Id
     String id = sharedPreferences.getString("userId")!;
 
-    loadingBar(context!);
+    loadingBar(context!, title: "Creating new Task");
     try {
       final res = await _connect.post(
           "${APIEndpoints.base_url}/${APIEndpoints.create_task}",
@@ -81,7 +81,7 @@ class TaskService {
     //Get  stored employee Id
     String id = sharedPreferences.getString("userId")!;
 
-    loadingBar(context!);
+    loadingBar(context!, title: "Updating Task");
     try {
       final res = await _connect.patch(
           "${APIEndpoints.base_url}/${APIEndpoints.update_task}$taskId",
@@ -96,10 +96,11 @@ class TaskService {
         }
       } else {
         logger.d(res.body);
+        String message = res.body['message'];
         if (context.mounted) {
           Navigator.pop(context);
           logger.d(res.body);
-          showSnackBar(message: 'Error Creating Task', isError: true);
+          showSnackBar(message: message, isError: true);
         }
 
         return null!;

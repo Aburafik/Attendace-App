@@ -34,34 +34,46 @@ class TaskHistory extends StatelessWidget {
                 : Card(
                     elevation: .4,
                     margin: const EdgeInsets.symmetric(vertical: 10),
-                    surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    shape: const RoundedRectangleBorder(),
+                    surfaceTintColor: CustomeColors.white,
+                    color: CustomeColors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6)),
                     child: ListTile(
                       leading: Icon(
                         Icons.check_circle,
                         color: CustomeColors.primary,
                       ),
-                      trailing: GestureDetector(
-                        onTap: () {
-                          showMaterialModalBottomSheet(
-                              backgroundColor: CustomeColors.white,
-                              expand: true,
-                              context: context,
-                              builder: (context) => UpdateTaskComponent(
-                                    employeeTaskModel: taskController!
-                                        .employeeTaskHistory[index],
-                                  ));
-                        },
-                        child: const Icon(
-                          FeatherIcons.edit,
-                          size: 20,
-                        ),
+                      trailing: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showMaterialModalBottomSheet(
+                                  backgroundColor: CustomeColors.white,
+                                  expand: true,
+                                  context: context,
+                                  builder: (context) => UpdateTaskComponent(
+                                        employeeTaskModel: taskController!
+                                            .employeeTaskHistory[index],
+                                      ));
+                            },
+                            child: const Icon(
+                              FeatherIcons.edit,
+                              size: 20,
+                            ),
+                          ),
+                          Text(
+                            time,
+                            style: TextStyle(
+                                fontSize: 12, color: CustomeColors.grey),
+                          ),
+                        ],
                       ),
                       title: Text(
                           taskController!.employeeTaskHistory[index].title),
                       subtitle: Text(
-                        time,
+                        taskController!.employeeTaskHistory[index].description,
                         style:
                             TextStyle(fontSize: 12, color: CustomeColors.grey),
                       ),

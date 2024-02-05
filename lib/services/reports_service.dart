@@ -26,7 +26,7 @@ class ReportService {
     //Get  stored employee Id
     String id = sharedPreferences.getString("userId")!;
 
-    loadingBar(context!);
+    loadingBar(context!,title: "Creating new Report");
     try {
       final res = await _connect.post(
           "${APIEndpoints.base_url}/${APIEndpoints.create_report}", {

@@ -17,7 +17,10 @@ class NewTaskViewComponent extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        const Text("Create New Task"),
+           const Text(
+                "Create New Task",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15),
           child: CommonFieldComponent(

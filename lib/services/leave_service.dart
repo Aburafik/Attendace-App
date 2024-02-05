@@ -26,7 +26,7 @@ class LeaveService {
     //Get  stored employee Id
     String id = sharedPreferences.getString("userId")!;
 
-    loadingBar(context!);
+    loadingBar(context!, title: "Sending Leave Request");
     try {
       final res = await _connect
           .post("${APIEndpoints.base_url}/${APIEndpoints.request_leave}", {
@@ -93,7 +93,7 @@ class LeaveService {
     //Get  stored employee Id
     String id = sharedPreferences.getString("userId")!;
 
-    loadingBar(context!);
+    loadingBar(context!, title: "Updating Leave Request");
     try {
       final res = await _connect.patch(
           "${APIEndpoints.base_url}/${APIEndpoints.update_leave_request}$leaveId",

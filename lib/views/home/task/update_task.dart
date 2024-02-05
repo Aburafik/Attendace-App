@@ -24,6 +24,7 @@ class UpdateTaskComponent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Align(
                 alignment: Alignment.centerRight,
@@ -32,7 +33,10 @@ class UpdateTaskComponent extends StatelessWidget {
                   icon: Icon(Icons.cancel, color: CustomeColors.grey),
                 ),
               ),
-              const Text("Update Task"),
+              const Text(
+                "Update Task",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: CommonFieldComponent(

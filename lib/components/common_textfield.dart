@@ -11,6 +11,7 @@ class CommonFieldComponent extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.enable = true,
+    this.obscureText = false,
     this.keyboardType,
   });
   final Widget? prefixIcon;
@@ -19,6 +20,7 @@ class CommonFieldComponent extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
   final bool enable;
+  final bool? obscureText;
   final Color? hintColor;
   // final int? maxLength;
   final TextInputType? keyboardType;
@@ -32,17 +34,21 @@ class CommonFieldComponent extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: TextField(
+          cursorColor: CustomeColors.primary,
           enabled: enable,
           controller: controller,
           keyboardType: keyboardType,
           minLines: minLines,
           maxLines: maxLines ?? 1,
+          obscureText: obscureText!,
+          obscuringCharacter: "*",
           // maxLength: maxLength,
           decoration: InputDecoration(
               border: InputBorder.none,
               suffixIcon: prefixIcon,
               hintText: hintText,
-              hintStyle:  TextStyle(color:hintColor?? const Color(0xffDAE1E1))),
+              hintStyle:
+                  TextStyle(color: hintColor ?? const Color(0xffDAE1E1))),
         ),
       ),
     );

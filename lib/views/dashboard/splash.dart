@@ -1,14 +1,20 @@
+// ignore_for_file: library_prefixes
+
 import 'package:attendance_app/controllers/attendance_controller.dart';
 import 'package:attendance_app/controllers/employee_controller.dart';
 import 'package:attendance_app/controllers/leave_controller.dart';
 import 'package:attendance_app/controllers/reports_controller.dart';
 import 'package:attendance_app/controllers/task_controller.dart';
+import 'package:attendance_app/main.dart';
+import 'package:attendance_app/models/notifications_model.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/images.dart';
 import 'package:attendance_app/utils/router.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -26,24 +32,30 @@ class _SplashViewState extends State<SplashView> {
   final TaskController taskController = Get.put(TaskController());
   final LeaveController leaveController = Get.put(LeaveController());
   final ReportController reportController = Get.put(ReportController());
+  List<Map> messages = [];
+  Box<NotificationModels>? notifications;
+
   IO.Socket? socket;
+
   @override
   void initState() {
+    notifications = Hive.box<NotificationModels>('notifications');
+
     employeeController.onInit();
     attendanceController.onInit();
     taskController.onInit();
     leaveController.onInit();
     reportController.onInit();
     getUserDataIfloggegIn();
-
+    connectToServer();
     // initSocket();
     super.initState();
   }
 
-  getUserDataIfloggegIn() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String employeedId = sharedPreferences.getString("userId")!;
-    if (employeedId.isNotEmpty) {
+  getUserDataIfloggegIn() {
+    final employeedId = sharedPreferences.getString("userId");
+    // ignore: unnecessary_null_comparison
+    if (employeedId != null) {
       attendanceController.getUser();
       taskController.getAllTask();
       leaveController.getAllLeaveHistiry();
@@ -51,20 +63,60 @@ class _SplashViewState extends State<SplashView> {
     }
   }
 
-  // initSocket() {
-  //   socket = IO
-  //       .io("http://localhost:3000/api/admin/notifications", <String, dynamic>{
-  //     'autoConnect': true,
-  //     'transports': ['websocket'],
-  //   });
-  //   socket!.connect();
-  //   socket!.onConnect((_) {
-  //     print('Connection established');
-  //   });
-  //   socket!.onDisconnect((_) => print('Connection Disconnection'));
-  //   socket!.onConnectError((err) => print(err));
-  //   socket!.onError((err) => print(err));
-  // }
+  void connectToServer() {
+    final employeedId = sharedPreferences.getString("userId");
+    socket =
+        IO.io('https://attendance-app-m0oa.onrender.com', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket?.connect();
+    socket?.onConnecting(
+        (data) => print("Connecting to the socket server::::::::::::::"));
+    socket?.on('newNotification', (data) {
+      print('Received message: $data');
+      if (employeedId == data['to']) {
+        AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              id: 1,
+              backgroundColor: CustomeColors.white,
+              channelKey: "basic_channel",
+              title: data['title'].toString(),
+              body: data['body'].toString()),
+        );
+        final newNotification = NotificationModels(data['title'].toString(),
+            data['body'].toString(), data['timestamp']);
+        notifications!.add(newNotification);
+        setState(() {
+          messages.add(data);
+        });
+      } else if (data["to"] == "all") {
+        AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              id: 1,
+              backgroundColor: CustomeColors.white,
+              channelKey: "basic_channel",
+              title: data['title'].toString(),
+              body: data['body'].toString()),
+        );
+        final newNotification = NotificationModels(data['title'].toString(),
+            data['body'].toString(), data['timestamp']);
+        notifications!.add(newNotification);
+        setState(() {
+          messages.add(data);
+        });
+      }
+    });
+    socket?.onConnect((_) {
+      print('Connected to the socket server');
+    });
+
+    socket?.onDisconnect((_) {
+      print('Disconnected from the socket server');
+    });
+
+    socket?.onConnectError((data) => print("Connect error: $data"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +174,9 @@ class _SplashViewState extends State<SplashView> {
                           onTap: () async {
                             SharedPreferences sharedPreferences =
                                 await SharedPreferences.getInstance();
-                            String userId =
-                                sharedPreferences.getString("userId")!;
-                            userId.isNotEmpty
+                            final userId =
+                                sharedPreferences.getString("userId");
+                            userId != null
                                 ? Get.toNamed(AppRouter.dashboard)
                                 : Get.toNamed(AppRouter.signIn);
                           }),

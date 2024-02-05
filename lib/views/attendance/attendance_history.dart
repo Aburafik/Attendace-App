@@ -11,24 +11,30 @@ class AttendanceHistory extends StatelessWidget {
       Get.find<AttendanceController>();
 
   formatDate({int? index}) {
-    final DateTime clockIn =
-        attendanceController.employeeAttendanceHistory.reversed.toList()[index!].clockInTime;
+    final DateTime clockIn = attendanceController
+        .employeeAttendanceHistory.reversed
+        .toList()[index!]
+        .clockInTime;
     final DateFormat formatter = DateFormat("MMM d");
     final String formatted = formatter.format(clockIn);
     return formatted;
   }
 
   formatTime({int? index}) {
-    final DateTime time =
-        attendanceController.employeeAttendanceHistory.reversed.toList()[index!].clockInTime;
+    final DateTime time = attendanceController
+        .employeeAttendanceHistory.reversed
+        .toList()[index!]
+        .clockInTime;
     final DateFormat formatteredTime = DateFormat().add_jm();
     final String formattedTime = formatteredTime.format(time);
     return formattedTime;
   }
 
   formatClockOutTime({int? index}) {
-    final DateTime time =
-        attendanceController.employeeAttendanceHistory.reversed.toList()[index!].clockOutTime!;
+    final DateTime time = attendanceController
+        .employeeAttendanceHistory.reversed
+        .toList()[index!]
+        .clockOutTime!;
     final DateFormat formatteredTime = DateFormat().add_jm();
     final String formattedTime = formatteredTime.format(time);
     return formattedTime;
@@ -44,12 +50,12 @@ class AttendanceHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: commonAppBar(title: "Attendance",),
+      appBar: commonAppBar(title: "Attendance", canGoback: false),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Obx(() {
           return attendanceController.employeeAttendanceHistory.isEmpty
-              ? const Text("asnd")
+              ? const Text("No Attendance History")
               : Column(
                   children: [
                     Row(
@@ -80,7 +86,7 @@ class AttendanceHistory extends StatelessWidget {
                               child: Material(
                                 color: CustomeColors.lightGrey,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(6)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
@@ -88,9 +94,12 @@ class AttendanceHistory extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       CircleAvatar(
+                                        backgroundColor: CustomeColors.primary,
                                         child: Text(
                                           date,
-                                          style: const TextStyle(fontSize: 8),
+                                          style: TextStyle(
+                                              fontSize: 8,
+                                              color: CustomeColors.white),
                                         ),
                                       ),
                                       // Text(date),
@@ -118,10 +127,10 @@ class AttendanceHistory extends StatelessWidget {
     Color? color,
   }) {
     return Material(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: color,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 25),
           child: Text(
             title!,
             style: const TextStyle(fontSize: 12),

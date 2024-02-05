@@ -6,6 +6,7 @@ import 'package:attendance_app/services/attendance_service.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/utils/images.dart';
 import 'package:attendance_app/utils/router.dart';
+import 'package:attendance_app/utils/shared_prefs.dart';
 import 'package:attendance_app/views/dashboard/splash.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class HomeView extends StatelessWidget {
   final AttendanceService _attendanceService = AttendanceService();
   @override
   Widget build(BuildContext context) {
+    final user = getUserProfile();
     DateTime now = DateTime.now();
 
     var textStyle = TextStyle(
@@ -27,31 +29,37 @@ class HomeView extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: CustomeColors.primary,
         toolbarHeight: 100,
-        title: Obx(() {
-          return Row(
-            children: [
-              const SizedBox(width: 5),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    CustomImagaes.hand,
-                    height: 20,
-                  ),
-                  Text(
-                    "Hey ${userController.user.value.name!}",
-                    style: TextStyle(color: CustomeColors.white, fontSize: 14),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    userController.user.value.role!,
-                    style: smallTextStyle.copyWith(color: CustomeColors.white),
-                  ),
-                ],
-              )
-            ],
-          );
-        }),
+        title: Row(
+          children: [
+            const SizedBox(width: 5),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(
+                  CustomImagaes.hand,
+                  height: 20,
+                ),
+                Text(
+                  "Hey ${user['name']}",
+                  style: TextStyle(color: CustomeColors.white, fontSize: 14),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  user['role'],
+                  style: smallTextStyle.copyWith(color: CustomeColors.white),
+                ),
+              ],
+            )
+          ],
+        ),
+        actions: [
+          IconButton(
+              onPressed: () => Get.toNamed(AppRouter.notifications),
+              icon: Icon(
+                FeatherIcons.bell,
+                color: CustomeColors.white,
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -241,7 +249,7 @@ class HomeView extends StatelessWidget {
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor: CustomeColors.primary,
-                child: const Icon(FeatherIcons.twitch),
+                child: Icon(Icons.fingerprint, color: CustomeColors.white, size: 30,),
               ),
             ))
           ],
