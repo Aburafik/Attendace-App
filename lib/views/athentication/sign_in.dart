@@ -7,7 +7,7 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
 class SignInView extends StatefulWidget {
-  SignInView({super.key});
+  const SignInView({super.key});
 
   @override
   State<SignInView> createState() => _SignInViewState();

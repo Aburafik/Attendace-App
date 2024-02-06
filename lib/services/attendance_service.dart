@@ -30,7 +30,7 @@ class AttendanceService {
         height: 200,
         child: LoadingIndicator(
             indicatorType: Indicator.ballScale,
-            colors: [Colors.black],
+            colors: const [Colors.black],
             strokeWidth: 2,
             backgroundColor: Colors.white.withOpacity(0.0),
             pathBackgroundColor: Colors.black),

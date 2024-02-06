@@ -26,10 +26,10 @@ class AppRouter {
   static List<GetPage> routes = [
     GetPage(
         name: initial, page: () => const SplashView(), curve: Curves.easeIn),
-    GetPage(name: signIn, page: () => SignInView(), curve: Curves.easeIn),
+    GetPage(name: signIn, page: () => const SignInView(), curve: Curves.easeIn),
     GetPage(
         name: notifications,
-        page: () => NotificationsView(),
+        page: () => const NotificationsView(),
         curve: Curves.easeIn),
     GetPage(
         name: dashboard,
@@ -39,8 +39,8 @@ class AppRouter {
     GetPage(name: Report, page: () => const Reports(), curve: Curves.easeIn),
     GetPage(
         name: Calender, page: () => const CalenderVC(), curve: Curves.easeIn),
-    GetPage(name: Leave, page: () => LeaveVC(), curve: Curves.easeIn),
+    GetPage(name: Leave, page: () => const LeaveVC(), curve: Curves.easeIn),
     GetPage(
-        name: leaveHistory, page: () => LeaveHistory(), curve: Curves.easeIn),
+        name: leaveHistory, page: () => const LeaveHistory(), curve: Curves.easeIn),
   ];
 }

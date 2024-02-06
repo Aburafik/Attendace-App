@@ -6,7 +6,7 @@ import 'package:attendance_app/views/home/leave/leave.dart';
 import 'package:flutter/material.dart';
 
 class NewReportComponent extends StatefulWidget {
-  NewReportComponent({super.key});
+  const NewReportComponent({super.key});
 
   @override
   State<NewReportComponent> createState() => _NewReportComponentState();

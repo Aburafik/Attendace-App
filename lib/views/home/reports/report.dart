@@ -31,7 +31,7 @@ class Reports extends StatelessWidget {
                         backgroundColor: CustomeColors.white,
                         expand: true,
                         context: context,
-                        builder: (context) => NewReportComponent(),
+                        builder: (context) => const NewReportComponent(),
                       );
                     },
                     child: Text(

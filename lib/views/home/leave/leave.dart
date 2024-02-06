@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 class LeaveVC extends StatefulWidget {
-  LeaveVC({super.key});
+  const LeaveVC({super.key});
 
   @override
   State<LeaveVC> createState() => _LeaveVCState();
@@ -159,7 +159,7 @@ Future<dynamic> selectLeaveDate(
           child: ScrollDatePicker(
 
               // indicator: Text("46"),
-              viewType: [],
+              viewType: const [],
               options: DatePickerOptions(
                 itemExtent: 40,
                 backgroundColor: CustomeColors.white.withOpacity(0),
@@ -190,7 +190,7 @@ class CommomDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: CustomeColors.white,
+      // color: CustomeColors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
           side: const BorderSide(color: Color(0xffDAE1E1))),

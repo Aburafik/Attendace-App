@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:light_modal_bottom_sheet/light_modal_bottom_sheet.dart';
 
 class LeaveHistory extends StatelessWidget {
-  LeaveHistory({super.key});
+  const LeaveHistory({super.key});
   // LeaveController? leaveController = Get.find<LeaveController>();
   formatDate({int? index, LeaveModel? leaveController}) {
     final DateTime timeCreate = leaveController!.timeStamp;

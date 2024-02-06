@@ -24,7 +24,7 @@ class NotificationCardComponent extends StatelessWidget {
 
     return Card(
       surfaceTintColor: CustomeColors.white,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: SizedBox(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

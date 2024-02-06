@@ -29,7 +29,7 @@ class _DashBoardViewState extends State<DashBoardView> {
     screens = [
       HomeView(),
       AttendanceHistory(),
-      ProfileView(),
+      const ProfileView(),
 
       ////////////
     ];

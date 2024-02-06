@@ -3,7 +3,6 @@ import 'package:attendance_app/models/employee_task_model.dart';
 import 'package:attendance_app/services/task_service.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:attendance_app/views/dashboard/splash.dart';
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 
 class UpdateTaskComponent extends StatelessWidget {

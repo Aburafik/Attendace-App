@@ -211,12 +211,12 @@ class HomeView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  padding: const EdgeInsets.symmetric(vertical: 8),
                                   child: Text(
                                     now.hour < 12
                                         ? "Register your presence and start work"
                                         : "Sign your departure and have a happy day",
-                                    style: TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
                                 CommonButton(

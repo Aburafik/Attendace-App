@@ -8,7 +8,7 @@ class CalenderVC extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBar(title: "Calender"),
-      body: Center(
+      body: const Center(
         child: Text("Calender"),
       ),
     );

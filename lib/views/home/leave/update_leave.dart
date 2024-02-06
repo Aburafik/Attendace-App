@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class UpdateLeaveComponent extends StatefulWidget {
-  UpdateLeaveComponent({super.key, this.leaveModel});
+  const UpdateLeaveComponent({super.key, this.leaveModel});
 
   final LeaveModel? leaveModel;
 

@@ -15,7 +15,6 @@ import 'package:attendance_app/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final EmployeeController userController = Get.find<EmployeeController>();
 final AttendanceController attendanceController =

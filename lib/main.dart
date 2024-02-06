@@ -1,27 +1,20 @@
 import 'package:attendance_app/controllers/notifications_controller.dart';
-import 'package:attendance_app/firebase_options.dart';
 import 'package:attendance_app/models/notifications_model.dart';
 // import 'package:attendance_app/models/notifications_model.dart';
-import 'package:attendance_app/utils/colors.dart';
-import 'package:attendance_app/utils/images.dart';
 import 'package:attendance_app/utils/router.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 late SharedPreferences sharedPreferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  
   sharedPreferences = await SharedPreferences.getInstance();
   final dir = await getApplicationDocumentsDirectory();
   await Hive.initFlutter();
