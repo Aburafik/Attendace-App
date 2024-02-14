@@ -124,7 +124,7 @@ class _SplashViewState extends State<SplashView> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(CustomImagaes.cover), fit: BoxFit.cover),
+              image: AssetImage(CustomImagaes.meet), fit: BoxFit.cover),
         ),
         child: Stack(
           children: [

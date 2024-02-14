@@ -66,7 +66,7 @@ class HomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: MediaQuery.sizeOf(context).height / 7,
+              height: MediaQuery.sizeOf(context).height / 6,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => GestureDetector(
